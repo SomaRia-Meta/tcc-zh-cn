@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 语法检查
+        run: |
+          bash -n install.sh
+          bash -n uninstall.sh
+          bash -n tools/make-dist.sh
+          bash -n tools/build-zh-bundle.sh
+          bash -n tools/test-smoke.sh
+          python3 -m py_compile lib/asar_extract.py lib/patch_bundles.py
+
+      - name: 打包
+        run: make dist
+
+      - name: 检查产物
+        run: |
+          test -f dist/tcc-zh-cn_$(cat VERSION)_all.deb
+          test -f dist/tcc-zh-cn-$(cat VERSION).tar.gz
+          dpkg-deb -I dist/tcc-zh-cn_$(cat VERSION)_all.deb
