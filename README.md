@@ -19,9 +19,9 @@ GPL-3.0 源码做了完整的 zh-CN 界面（437 条文案），打包成可以�
 
 ## 截图
 
-| 设置 | 配置文件 | 工具 |
-| --- | --- | --- |
-| ![](docs/screenshots/settings.png) | ![](docs/screenshots/profiles.png) | ![](docs/screenshots/tools.png) |
+| 设置 | 配置文件 | 工具 | 托盘右键菜单 |
+| --- | --- | --- | --- |
+| ![](docs/screenshots/settings.png) | ![](docs/screenshots/profiles.png) | ![](docs/screenshots/tools.png) | ![](docs/screenshots/tray-menu.png) |
 
 ## 支持版本
 
