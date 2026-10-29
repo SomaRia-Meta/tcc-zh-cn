@@ -77,6 +77,46 @@ def patch_available_languages(app_dir):
         print("  initMain: 已加入 zh-CN")
 
 
+TRAY_LABELS = [
+    ("Activate profile temporarily", "临时激活配置"),
+    ("Aquaris control", "Aquaris 控制"),
+    ("Profiles", "配置"),
+    ("Tray autostart", "托盘自启动"),
+    ("Power save blocker", "阻止节能"),
+    ("Fn-Lock", "Fn 锁定"),
+    ("Graphics", "显卡"),
+    ("Select dGPU", "选择独显"),
+    ("Apply on-demand mode", "应用按需模式"),
+    ("Select iGPU", "选择核显"),
+    ("Exit", "退出"),
+]
+
+
+def patch_tray_labels(app_dir):
+    """托盘右键菜单的文案在上游是硬编码的，这里直接替换编译后的字符串。"""
+    path = os.path.join(app_dir, "dist/tuxedo-control-center/e-app/e-app/TccTray.js")
+    if not os.path.exists(path):
+        print("  警告：找不到 TccTray.js，跳过托盘菜单汉化", file=sys.stderr)
+        return
+    with open(path, encoding="utf-8") as f:
+        src = f.read()
+    changed = 0
+    for en, zh in TRAY_LABELS:
+        needle = "label: '%s'" % en
+        done = "label: '%s'" % zh
+        if needle in src:
+            src = src.replace(needle, done)
+            changed += 1
+        elif done not in src:
+            print("  警告：托盘菜单里找不到 %r（版本可能不同）" % en, file=sys.stderr)
+    if changed:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(src)
+        print("  托盘菜单：已汉化 %d 项" % changed)
+    else:
+        print("  托盘菜单：已是中文，跳过")
+
+
 def install_payload(app_dir, payload_dir):
     src = os.path.join(payload_dir, "zh-CN")
     dst = os.path.join(app_dir, BROWSER, "zh-CN")
@@ -115,6 +155,8 @@ def main():
     patch_language_menu(app_dir, ["en", "de", "en-US"])
     print("修改语言列表…")
     patch_available_languages(app_dir)
+    print("汉化托盘菜单…")
+    patch_tray_labels(app_dir)
 
 
 if __name__ == "__main__":

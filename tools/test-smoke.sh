@@ -27,6 +27,8 @@ grep -q 'zh-CN' "$TMP/resources/app/dist/tuxedo-control-center/ng-app/browser/en
     || { echo "失败：英文界面里没有加入中文语言项"; exit 1; }
 grep -q "zh-CN" "$TMP/resources/app/dist/tuxedo-control-center/e-app/e-app/backendAPIs/initMain.js" \
     || { echo "失败：initMain 没有加入 zh-CN"; exit 1; }
+grep -q "临时激活配置" "$TMP/resources/app/dist/tuxedo-control-center/e-app/e-app/TccTray.js" \
+    || { echo "失败：托盘菜单没有汉化"; exit 1; }
 echo "OK：中文界面已写入"
 
 echo "== 卸载 =="

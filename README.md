@@ -13,7 +13,7 @@ GPL-3.0 源码做了完整的 zh-CN 界面（437 条文案），打包成可以�
 
 - 仪表板 / 配置文件 / 工具 / Aquaris / Tomte / 摄像头 / 设置 / 支持 / 信息，全部中文
 - 左下角语言按钮 **English ⇄ 简体中文** 一键切换（英文、德文界面里也加了“简体中文”选项）
-- 系统托盘里的配置文件名、通知等也会跟着变中文（托盘右键菜单的固定项是上游硬编码英文，无法翻译）
+- 系统托盘右键菜单也做了汉化（这些文案上游是硬编码的，安装时直接替换编译后的字符串）
 - 不修改官方 `app.asar`：把它解开成 `resources/app/` 目录再打补丁，原文件改名备份，卸载即还原
 - 支持 `apt remove` 自动还原；不需要联网，安装只要几秒钟
 
@@ -92,7 +92,7 @@ Electron 查找应用的顺序是 `resources/app.asar` → `resources/app` 目�
 
 ## 已知限制
 
-- 托盘右键菜单的固定项（Profiles / Fn-Lock / Graphics / Exit…）是上游源码里硬编码的英文，没走 i18n
+- 极少数系统级弹窗（如 `Notice`、`Prime Select Configuration`）仍是英文，它们不在托盘和主界面里
 - 配置文件页里**自定义**配置档的名称和描述来自 `/etc/tcc/profiles` 用户数据
   （如 `TUXEDO Defaults` / `Edit profile to change behaviour`），不属于界面文案；
   官方德语版同样如此
