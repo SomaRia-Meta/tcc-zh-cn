@@ -145,9 +145,24 @@ Electron 查找应用的顺序是 `resources/app.asar` → `resources/app` 目�
 
 ## 发布
 
+发布前先改两处占位信息（可选，但建议）：
+
+- `tools/make-dist.sh` 里的 `Maintainer` 邮箱
+- deb 的 `Homepage`：`HOMEPAGE=https://github.com/你的用户名/tcc-zh-cn make dist`
+
+然后：
+
 ```bash
 make dist      # 生成 dist/*.tar.gz 和 dist/*.deb
-git tag v3.1.2-zh1 && git push --tags   # 触发 Actions 自动创建 Release
+git push -u origin main
+git push --tags                 # 触发 Actions 自动创建 Release
+```
+
+推送到自己的仓库：
+
+```bash
+git remote add origin git@github.com:你的用户名/tcc-zh-cn.git
+git push -u origin main --tags
 ```
 
 `.github/workflows/release.yml` 会在打 tag 时自动打包并附到 GitHub Release；
